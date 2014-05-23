@@ -14,7 +14,7 @@ function g = getMetricFromHeight(h,x,y,g3)
     g3 = eye(3);
   end
   
-  J = [1 0;0 1;diff(h,x) diff(h,y)];
-  g = J*g3*J';
+  J = [1 0;0 1;diff(h,x) diff(h,y)]; 
+  g = J'*g3*J;
   
 end

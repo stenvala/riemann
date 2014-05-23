@@ -13,25 +13,32 @@ classdef rmSymb < handle
   %
   % Created: Antti Stenvall (antti@stenvall.fi)
   %
+  
   properties (GetAccess=protected,SetAccess=protected)
     g
     s % symbolic variables (i.e. coordinates)
     dim
     title
     description
+    myPers 
   end
   methods (Access=public)
+    %% Constructors
     function this = rmSymb(metricTensor,symVars, varargin)
         defaults.dim = 2;
         defaults.description = '';
         defaults.title = '';
         params = setDefaultParameters(defaults,varargin);
         this.g = metricTensor;
-        this.symVars = symVars;
+        this.s = symVars;
         this.dim = params.dim;
         this.description = params.description;
-        this.title = params.title;
+        this.title = params.title;        
     end
+    %% Getters
+    G = getChristoffelSymbols(this,varargin);    
+    g = getInverseMetric(this,varargin);      
+    %l = getPathLength(this,path,from,to);
   end
   methods (Access=protected)
     
@@ -40,6 +47,8 @@ classdef rmSymb < handle
     
   end
   methods (Static)
-    g = getMetricFromHeight(h,x,y);      
+    J = getJacobian(fun,vars);
+    g = getMetricFromHeight(h,x,y);   
+    g = getPullBackMetric(domain,codomain,g);
   end  
 end

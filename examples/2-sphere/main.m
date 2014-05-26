@@ -22,7 +22,7 @@ thetaPath = linspace(0,pi);
 varphiPath = linspace(0,pi*2);
 rm.getPathLength([thetaPath' varphiPath'])
 
-%%
+%% Plot sphere and the path
 
 thetaSpan = linspace(0,pi,15);
 varphiSpan = linspace(0,2*pi,30);
@@ -35,6 +35,7 @@ fig('figure',1,'height',16,'width',16);
 mesh(X(T,V),Y(T,V),Z(T,V),...
   'edgeColor','blue','faceColor','white','faceAlpha',0.7);
 axis equal
+
 % draw path
 hold on
 plot3(X(thetaPath,varphiPath),Y(thetaPath,varphiPath),Z(thetaPath,varphiPath),...

@@ -2,8 +2,8 @@ function l = solveGeodesicBVP(this,p0,p1,varargin)
   % Solve geodesic equation
   %
   % parameters:
-  %   - point: initial point
-  %   - tangent: tangent vector
+  %   - p0: starting point
+  %   - p1: end point
   %
   % Created: Antti Stenvall (antti@stenvall.fi)
   %
@@ -17,12 +17,10 @@ function l = solveGeodesicBVP(this,p0,p1,varargin)
     defaults.init(k+dim,end) = defaults.init(k+dim,end-1);
   end
   params = setDefaultParameters(defaults,varargin);
-  bcfun = @(y0,y1) [y0(1:dim)-p0;y1(1:dim)-p1];
-  
+  bcfun = @(y0,y1) [y0(1:dim)-p0;y1(1:dim)-p1];  
   odefun = @(t,q) this.geodesicOdeFun(t,q);
   solinit.x = params.t;
   solinit.y = params.init;
   res = bvp4c(odefun,bcfun,solinit);
-  l = res.y(1:dim,:)';
-  
+  l = res.y(1:dim,:)';  
 end

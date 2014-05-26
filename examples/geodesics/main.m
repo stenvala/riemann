@@ -6,6 +6,7 @@ syms x y
 h = sin(x)*cos(y); % height function
 H = matlabFunction(h,'vars',[x y]);
 g = rmSymb.getMetricFromHeight(h,x,y);
+G = matlabFunction(g,'vars',[x y]);
 rm = rmSymb(g,[x,y],'dim',2);
 
 %% initial conditions for geodesic solver
@@ -21,18 +22,20 @@ initPosition = [0 pi/4]';
 endPosition = [-pi pi/4]';
 geoBVP = rm.solveGeodesicBVP(initPosition,endPosition);
 
-% solve geodesic at Jacobi metric, for this, establish new manifold
+%% solve geodesic at Jacobi metric, for this, establish new manifold
 initPosition = initPosition;
 initVector = initVector;
 tSpan = [0 10];
-gj = (0.5*initPosition'*g*initPosition-h)*g;
+E = 0.5*initVector'*G(initPosition(1),initPosition(2))*initVector+...
+  9.8*H(initPosition(1),initPosition(2));
+gj = (E-9.8*h)*g;
 rmj = rmSymb(gj,[x,y],'dim',2);
 geoj = rmj.solveGeodesic(initPosition,initVector,'t',tSpan);
 
 %% display surface and solved geodesics
 fig('figure',1,'height',24,'width',24);
 
-s = linspace(-pi,pi,200)*2;
+s = linspace(-pi,pi,200)*3;
 [X, Y] = meshgrid(s,s);
 
 surf(X,Y,H(X,Y),'edgecolor','none');

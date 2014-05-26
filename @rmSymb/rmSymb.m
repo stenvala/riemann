@@ -38,7 +38,7 @@ classdef rmSymb < handle
     %% Getters
     G = getChristoffelSymbols(this,varargin);    
     g = getInverseMetric(this,varargin);      
-    %l = getPathLength(this,path,from,to);
+    l = getPathLength(this,path);
   end
   methods (Access=protected)
     

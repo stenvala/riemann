@@ -32,10 +32,10 @@ geoj = rmj.solveGeodesic(initPosition,initVector,'t',tSpan);
 %% display surface and solved geodesics
 fig('figure',1,'height',24,'width',24);
 
-s = linspace(-pi,pi,100)*2;
+s = linspace(-pi,pi,200)*2;
 [X, Y] = meshgrid(s,s);
 
-surf(X,Y,H(X,Y),'edgecolor','none','facecolor','interp');
+surf(X,Y,H(X,Y),'edgecolor','none');
 hold on
 zPlus = 0.1;
 plot3(geo(:,1),geo(:,2),H(geo(:,1),geo(:,2))+zPlus,'color','m','linewidth',4);

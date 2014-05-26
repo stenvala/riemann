@@ -4,6 +4,7 @@ clear all; close all; clc;
 syms x y
 
 h = sin(x)*cos(y); % height function
+H = matlabFunction(h,'vars',[x y]);
 g = rmSymb.getMetricFromHeight(h,x,y);
 rm = rmSymb(g,[x,y],'dim',2);
 
@@ -11,26 +12,35 @@ rm = rmSymb(g,[x,y],'dim',2);
 
 % solve geodesic with initial value solver
 initPosition = [0 pi/4]';
-initVector = [1 0]';
+initVector = [3 0]';
+tSpan = [0 5]';
 geo = rm.solveGeodesic(initPosition,initVector,...
-  't',[0 3]');
+  't',tSpan);
 % solve geodesic with boundary value solver
 initPosition = [0 pi/4]';
 endPosition = [-pi pi/4]';
 geoBVP = rm.solveGeodesicBVP(initPosition,endPosition);
 
+% solve geodesic at Jacobi metric, for this, establish new manifold
+initPosition = initPosition;
+initVector = initVector;
+tSpan = [0 10];
+gj = (0.5*initPosition'*g*initPosition-h)*g;
+rmj = rmSymb(gj,[x,y],'dim',2);
+geoj = rmj.solveGeodesic(initPosition,initVector,'t',tSpan);
+
 %% display surface and solved geodesics
-fig('figure',1,'height',16,'width',16);
+fig('figure',1,'height',24,'width',24);
 
 s = linspace(-pi,pi,100)*2;
 [X, Y] = meshgrid(s,s);
-H = matlabFunction(h,'vars',[x y]);
 
 surf(X,Y,H(X,Y),'edgecolor','none','facecolor','interp');
 hold on
 zPlus = 0.1;
 plot3(geo(:,1),geo(:,2),H(geo(:,1),geo(:,2))+zPlus,'color','m','linewidth',4);
 plot3(geoBVP(:,1),geoBVP(:,2),H(geoBVP(:,1),geoBVP(:,2))+zPlus,'color','k','linewidth',4);
+plot3(geoj(:,1),geoj(:,2),H(geoj(:,1),geoj(:,2))+zPlus,'color','y','linewidth',4);
 hold off
 
 view([0 90])

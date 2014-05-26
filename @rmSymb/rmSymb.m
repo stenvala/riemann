@@ -41,15 +41,13 @@ classdef rmSymb < handle
     l = getPathLength(this,path);
     %% Solvers    
     geodesic = solveGeodesic(this,point,tangent,varargin);
-    geodesic = solveGeodesicBVP(this,p0,p1,varargin);
-    geodesic = solveJacobiGeodesic(this,point,tangent,heightFun,varargin);
+    geodesic = solveGeodesicBVP(this,p0,p1,varargin);    
   end
   methods (Access=protected)
     
   end
   methods (Access=private)
-    dqdt = geodesicOdeFun(this,t,q);
-    
+    dqdt = geodesicOdeFun(this,t,q);    
   end
   methods (Static)
     J = getJacobian(fun,vars);

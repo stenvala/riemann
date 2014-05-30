@@ -15,7 +15,7 @@ y = r*sin(theta)*sin(varphi);
 z = r*cos(theta);
 
 g = rmSymb.getPullBackMetric([theta,varphi],[x,y,z]);
-rm = rmSymb(g,[theta,varphi],'dim',2);
+rm = rmSymb(g,[theta,varphi]);
 
 % compute path length
 thetaPath = linspace(0,pi);

@@ -4,10 +4,10 @@ clear all; close all; clc;
 syms x y real
 
 h = sin(x)*cos(y); % height function
-K = rm.getGaussianCurvature(h,x,y); % just for fun
+K = rmSymb.getGaussianCurvature(h,x,y); % just for fun
 
 g = rmSymb.getMetricFromHeight(h,x,y);
-rm = rmSymb(g,[x,y],'dim',2);
+rm = rmSymb(g,[x,y]);
 
 % for evaluation
 G = matlabFunction(g,'vars',[x y]);
@@ -34,7 +34,7 @@ tSpan = [0 10];
 E = 0.5*initVector'*G(initPosition(1),initPosition(2))*initVector+...
   9.8*H(initPosition(1),initPosition(2)); % compute initial energy
 gj = (E-9.8*h)*g; % this the Jacobi metric
-rmj = rmSymb(gj,[x,y],'dim',2);
+rmj = rmSymb(gj,[x,y]);
 geoj = rmj.solveGeodesic(initPosition,initVector,'t',tSpan);
 
 %% display surface and solved geodesics

@@ -41,7 +41,6 @@ classdef rmSymb < dmSymb
     dqdt = geodesicOdeFun(this,t,q);    
   end
   methods (Static)
-    J = getJacobian(fun,vars);
     g = getMetricFromHeight(h,x,y);   
     g = getPullBackMetric(domain,codomain,g);
     K = getGaussianCurvature(h,x,y);

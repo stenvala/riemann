@@ -25,6 +25,6 @@ classdef dmSymb < handle
     
   end
   methods (Static)
-    
+    J = getJacobian(fun,vars);
   end  
 end

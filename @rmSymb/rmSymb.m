@@ -37,6 +37,7 @@ classdef rmSymb < handle
     end
     %% Getters
     G = getChristoffelSymbols(this,varargin);    
+    R = getRiemannCurvature(this,varargin);
     g = getInverseMetric(this,varargin);      
     l = getPathLength(this,path);
     %% Solvers    
@@ -53,5 +54,6 @@ classdef rmSymb < handle
     J = getJacobian(fun,vars);
     g = getMetricFromHeight(h,x,y);   
     g = getPullBackMetric(domain,codomain,g);
+    K = getGaussianCurvature(h,x,y);
   end  
 end

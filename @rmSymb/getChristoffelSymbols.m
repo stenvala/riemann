@@ -19,7 +19,7 @@ function G = getChristoffelSymbols(this,varargin)
     if isfield(this.myPers,'GammaFun') && ~params.recompute
         G = this.myPers.GammaFun;
     else
-        G = matlabFunction(this.getChristoffelSymbols(),...
+        G = matlabFunction(simplify(this.getChristoffelSymbols('g',params.g)),...
         'vars',this.s);  
         this.myPers.GammaFun = G;
     end    
@@ -30,7 +30,6 @@ function G = getChristoffelSymbols(this,varargin)
     return;
   end  
   
-  %ginv = this.getInverseMetric();
   ginv = inv(params.g);
   G = sym(zeros(this.dim,this.dim,this.dim));
   for i=1:this.dim

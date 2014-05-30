@@ -8,7 +8,7 @@
 clear all; close all; clc;
 % define metric tensor
 
-syms theta varphi
+syms theta varphi real % computation is considerably faster if variables are assumed real
 r = 1;
 x = r*sin(theta)*cos(varphi);
 y = r*sin(theta)*sin(varphi);
@@ -21,6 +21,9 @@ rm = rmSymb(g,[theta,varphi],'dim',2);
 thetaPath = linspace(0,pi);
 varphiPath = linspace(0,pi*2);
 rm.getPathLength([thetaPath' varphiPath'])
+
+% compute riemann curvature tensor
+R = simplify(rm.getRiemannCurvature());
 
 %% Plot sphere and the path
 

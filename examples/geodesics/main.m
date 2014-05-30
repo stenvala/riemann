@@ -1,34 +1,39 @@
 %% solve for geodesic equation
 clear all; close all; clc;
 % define metric tensor and riemannian manifold with respect to chart
-syms x y
+syms x y real
 
 h = sin(x)*cos(y); % height function
-H = matlabFunction(h,'vars',[x y]);
+K = rm.getGaussianCurvature(h,x,y); % just for fun
+
 g = rmSymb.getMetricFromHeight(h,x,y);
-G = matlabFunction(g,'vars',[x y]);
 rm = rmSymb(g,[x,y],'dim',2);
 
+% for evaluation
+G = matlabFunction(g,'vars',[x y]);
+H = matlabFunction(h,'vars',[x y]);
 %% initial conditions for geodesic solver
 
 % solve geodesic with initial value solver
 initPosition = [0 pi/4]';
-initVector = [3 0]';
+initVector = [4 0]';
 tSpan = [0 5]';
 geo = rm.solveGeodesic(initPosition,initVector,...
   't',tSpan);
-% solve geodesic with boundary value solver
+
+% solve geodesic with boundary value solver, search for local minimum path
+% between points
 initPosition = [0 pi/4]';
-endPosition = [-pi pi/4]';
+endPosition = [-2*pi -pi/4]';
 geoBVP = rm.solveGeodesicBVP(initPosition,endPosition);
 
-%% solve geodesic at Jacobi metric, for this, establish new manifold
+% solve geodesic at Jacobi metric, for this, establish new manifold
 initPosition = initPosition;
 initVector = initVector;
 tSpan = [0 10];
 E = 0.5*initVector'*G(initPosition(1),initPosition(2))*initVector+...
-  9.8*H(initPosition(1),initPosition(2));
-gj = (E-9.8*h)*g;
+  9.8*H(initPosition(1),initPosition(2)); % compute initial energy
+gj = (E-9.8*h)*g; % this the Jacobi metric
 rmj = rmSymb(gj,[x,y],'dim',2);
 geoj = rmj.solveGeodesic(initPosition,initVector,'t',tSpan);
 
@@ -47,3 +52,5 @@ plot3(geoj(:,1),geoj(:,2),H(geoj(:,1),geoj(:,2))+zPlus,'color','y','linewidth',4
 hold off
 
 view([0 90])
+
+saveas(gcf,'fig.png','png');

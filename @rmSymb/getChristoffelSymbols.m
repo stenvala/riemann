@@ -31,7 +31,7 @@ function G = getChristoffelSymbols(this,varargin)
     return;
   end  
   
-  ginv = inv(params.g);
+  ginv = inv(params.g);  
   G = sym(zeros(this.dim,this.dim,this.dim));
   for i=1:this.dim
     for j=1:this.dim
@@ -39,9 +39,9 @@ function G = getChristoffelSymbols(this,varargin)
         for m=1:this.dim                         
           G(i,j,k) = G(i,j,k) + ...
             ginv(m,i)*(...
-            diff(params.g(m,k),this.s(j))+...
-            diff(params.g(j,m),this.s(k))-...
-            diff(params.g(k,j),this.s(m)));
+            diff(params.g(j,m),this.s(k))+...
+            diff(params.g(k,m),this.s(j))-...
+            diff(params.g(j,k),this.s(m)))/2;
         end
       end
     end

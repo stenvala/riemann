@@ -19,7 +19,8 @@ function Ri = getRicciTensor(this,varargin)
     if isfield(this.myPers,'RiFun') && ~params.recompute
       Ri = this.myPers.RiFun;
     else
-      Ri = matlabFunction(simplify(this.getRicciTensor('g',params.g)),...
+      Ri = matlabFunction(simplify(this.getRicciTensor('g',params.g,...
+        'recompute',params.recompute)),...
         'vars',this.s);
       this.myPers.RiFun = Ri;
     end
@@ -30,12 +31,11 @@ function Ri = getRicciTensor(this,varargin)
     return;
   end
   
-  R = this.getRiemannCurvature('g',params.g);
+  R = this.getRiemannCurvature('g',params.g,'recompute',params.recompute);
   Ri = sym(zeros(this.dim,this.dim));
   for i=1:this.dim
     for j=1:this.dim
-      for k=1:this.dim
-        R(k,i,k,j)
+      for k=1:this.dim        
         Ri(i,j) = Ri(i,j) + R(k,i,k,j);        
       end
     end

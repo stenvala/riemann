@@ -16,11 +16,7 @@ classdef dmSymb < handle
     function this = dmSymb(symVars)
         this.s = symVars;
         this.dim = length(symVars);        
-    end
-    %% Getters
-    
-    %% Solvers    
-    
+    end    
   end
   methods (Access=protected)
     

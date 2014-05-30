@@ -33,12 +33,11 @@ function S = getRicciScalar(this,varargin)
   ginv = inv(params.g);
   Ri = this.getRicciTensor(varargin{:});
   
-  S = 0;
-  
-  for i = 1:length(this.s)
-    for j = 1:length(this.s)
-      S = S + ginv(i,j)*Ri(i,j);
-    end
-  end  
+  Ric = sym(zeros(size(Ri)));
+    
+  for i = 1:length(this.s)    
+      Ric(i,i) = ginv(i,:)*Ri(i,:)';
+  end    
+  S = trace(Ric);
   
 end

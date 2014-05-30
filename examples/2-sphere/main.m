@@ -2,14 +2,14 @@
 %
 % Spherical coordinates
 % r = 1
-% theta = [0, 2*pi)
-% varphi = [0, pi]
+% theta = [0, pi]
+% varphi = [0, 2*pi)
 
 clear all; close all; clc;
 % define metric tensor
 
-syms theta varphi real % computation is considerably faster if variables are assumed real
-r = 1;
+syms theta varphi real % computation is considerably faster if variables are assumed to be real
+r = 2;
 x = r*sin(theta)*cos(varphi);
 y = r*sin(theta)*sin(varphi);
 z = r*cos(theta);
@@ -22,13 +22,12 @@ thetaPath = linspace(0,pi);
 varphiPath = linspace(0,pi*2);
 rm.getPathLength([thetaPath' varphiPath'])
 
-% compute riemann curvature tensor
-R = simplify(rm.getRiemannCurvature());
-
+%R = simplify(rm.getRiemannCurvature());
+%S = simplify(rm.getRicciScalar());
 %% Plot sphere and the path
 
 thetaSpan = linspace(0,pi,15);
-varphiSpan = linspace(0,2*pi,30);
+varphiSpan = linspace(0,pi*2,30);
 [T, V] = meshgrid(thetaSpan,varphiSpan);
 X = matlabFunction(x,'vars',[theta varphi]);
 Y = matlabFunction(y,'vars',[theta varphi]);

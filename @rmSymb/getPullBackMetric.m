@@ -14,4 +14,5 @@ function g = getPullBackMetric(domain,codomain,g)
   
   J = rmSymb.getJacobian(codomain,domain);
   g = J'*g*J;
+  
 end

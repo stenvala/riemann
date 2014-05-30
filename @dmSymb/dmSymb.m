@@ -9,7 +9,7 @@ classdef dmSymb < handle
   
   properties (GetAccess=protected,SetAccess=protected)    
     s % symbolic variables (i.e. coordinates)
-    dim    
+    dim % dimension, can be used short of length(symVars)
   end
   methods (Access=public)
     %% Constructors

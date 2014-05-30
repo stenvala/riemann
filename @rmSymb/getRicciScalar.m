@@ -3,7 +3,6 @@ function S = getRicciScalar(this,varargin)
   %
   % varargin:
   %   - fun {false}: get as matlabFunction for evaluation
-  %   - g {this.g}: metric tensor
   %   - recompute {false}: recompute and don't use persistent if available
   %
   % Created: Antti Stenvall (antti@stenvall.fi)
@@ -11,13 +10,12 @@ function S = getRicciScalar(this,varargin)
   
   defaults.fun = false;
   defaults.recompute = false;
-  defaults.g = this.g;
   params = setDefaultParameters(defaults,varargin);
   if params.fun
     if isfield(this.myPers,'SFun') && ~params.recompute
       S = this.myPers.SFun;
     else
-      S = matlabFunction(simplify(this.getRicciTensor('g',params.g,...
+      S = matlabFunction(simplify(this.getRicciTensor(...
         'recompute',params.recompute)),...
         'vars',this.s);
       this.myPers.SFun = S;
@@ -30,8 +28,8 @@ function S = getRicciScalar(this,varargin)
   end
   
   
-  ginv = inv(params.g);
-  Ri = this.getRicciTensor(varargin{:});
+  ginv = this.getInverseMetric();
+  Ri = this.getRicciTensor('recompute',params.recompute);
   
   Ric = sym(zeros(size(Ri)));
     
@@ -39,5 +37,5 @@ function S = getRicciScalar(this,varargin)
       Ric(i,i) = ginv(i,:)*Ri(i,:)';
   end    
   S = trace(Ric);
-  
+  this.myPers.S = S;
 end

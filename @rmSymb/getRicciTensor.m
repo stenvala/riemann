@@ -4,22 +4,20 @@ function Ri = getRicciTensor(this,varargin)
   % R_{ij} indices are as R(i,j)
   %
   % varargin:
-  %   - fun {false}: get as matlabFunction for evaluation
-  %   - g {this.g}: metric tensor
+  %   - fun {false}: get as matlabFunction for evaluation  
   %   - recompute {false}: recompute and don't use persistent if available
   %
   % Created: Antti Stenvall (antti@stenvall.fi)
   %
   
   defaults.fun = false;
-  defaults.recompute = false;
-  defaults.g = this.g;
+  defaults.recompute = false;  
   params = setDefaultParameters(defaults,varargin);
   if params.fun
     if isfield(this.myPers,'RiFun') && ~params.recompute
       Ri = this.myPers.RiFun;
     else
-      Ri = matlabFunction(simplify(this.getRicciTensor('g',params.g,...
+      Ri = matlabFunction(simplify(this.getRicciTensor(...
         'recompute',params.recompute)),...
         'vars',this.s);
       this.myPers.RiFun = Ri;
@@ -31,7 +29,7 @@ function Ri = getRicciTensor(this,varargin)
     return;
   end
   
-  R = this.getRiemannCurvature('g',params.g,'recompute',params.recompute);
+  R = this.getRiemannCurvature('recompute',params.recompute);
   Ri = sym(zeros(this.dim,this.dim));
   for i=1:this.dim
     for j=1:this.dim

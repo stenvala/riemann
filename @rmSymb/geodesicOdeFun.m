@@ -7,6 +7,7 @@ function dqdt = geodesicOdeFun(this,t,q)
   %
   % Created: Antti Stenvall (antti@stenvall.fi)
   %  
+  
   dim = length(this.s);
   dqdt = zeros(2*dim,1);
   dqdt(1:dim) = q(dim+1:end);

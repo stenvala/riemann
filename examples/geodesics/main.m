@@ -28,9 +28,9 @@ endPosition = [-2*pi -pi/4]';
 geoBVP = rm.solveGeodesicBVP(initPosition,endPosition);
 
 % solve geodesic at Jacobi metric, for this, establish new manifold
-initPosition = initPosition;
-initVector = initVector;
-tSpan = [0 10];
+%initPosition = initPosition;
+initVector = [0 4]';
+tSpan = [0 10]';
 E = 0.5*initVector'*G(initPosition(1),initPosition(2))*initVector+...
   9.8*H(initPosition(1),initPosition(2)); % compute initial energy
 gj = (E-9.8*h)*g; % this the Jacobi metric
@@ -40,7 +40,7 @@ geoj = rmj.solveGeodesic(initPosition,initVector,'t',tSpan);
 %% display surface and solved geodesics
 fig('figure',1,'height',24,'width',24);
 
-s = linspace(-pi,pi,200)*3;
+s = linspace(min([geo(:);geoBVP(:);geoj(:)]),max([geo(:);geoBVP(:);geoj(:)]),200);
 [X, Y] = meshgrid(s,s);
 
 surf(X,Y,H(X,Y),'edgecolor','none');

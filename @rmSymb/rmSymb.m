@@ -36,7 +36,9 @@ classdef rmSymb < handle
         this.title = params.title;        
     end
     %% Getters
-    G = getChristoffelSymbols(this,varargin);    
+    G = getChristoffelSymbols(this,varargin); 
+    S = getRicciScalar(this,varargin);
+    Ri = getRicciTensor(this,varargin);
     R = getRiemannCurvature(this,varargin);
     g = getInverseMetric(this,varargin);      
     l = getPathLength(this,path);

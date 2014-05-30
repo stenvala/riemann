@@ -17,9 +17,10 @@ function R = getRiemannCurvature(this,varargin)
   params = setDefaultParameters(defaults,varargin);
   if params.fun
     if isfield(this.myPers,'RFun') && ~params.recompute
-      R = this.myPers.GammaFun;
+      R = this.myPers.RFun;
     else
-      R = matlabFunction(simplify(this.getRiemannCurvature('g',params.g)),...
+      R = matlabFunction(simplify(this.getRiemannCurvature('g',params.g),...
+        'recompute',params.recompute),...
         'vars',this.s);
       this.myPers.RFun = R;
     end
@@ -28,8 +29,7 @@ function R = getRiemannCurvature(this,varargin)
   if isfield(this.myPers,'R') && ~params.recompute
     R = this.myPers.R;
     return;
-  end
-  
+  end  
   Gamma = this.getChristoffelSymbols('g',params.g);
   R = sym(zeros(this.dim,this.dim,this.dim,this.dim));
   for i=1:this.dim
@@ -39,7 +39,7 @@ function R = getRiemannCurvature(this,varargin)
           R(i,j,k,l) = diff(Gamma(i,k,l),this.s(j)) - ...
             diff(Gamma(i,j,l),this.s(k));
           for m=1:this.dim
-             R(i,j,k,l) = R(i,j,k,l) + ...
+            R(i,j,k,l) = R(i,j,k,l) + ...
               Gamma(m,k,l)*Gamma(i,j,m) - ...
               Gamma(m,j,l)*Gamma(i,k,m);
           end

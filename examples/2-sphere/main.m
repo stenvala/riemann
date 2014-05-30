@@ -44,3 +44,5 @@ hold on
 plot3(X(thetaPath,varphiPath),Y(thetaPath,varphiPath),Z(thetaPath,varphiPath),...
   'color','r','linewidth',4);
 hold off
+
+saveas(gcf,'fig.png');

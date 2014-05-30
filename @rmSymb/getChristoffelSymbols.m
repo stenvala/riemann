@@ -19,7 +19,8 @@ function G = getChristoffelSymbols(this,varargin)
     if isfield(this.myPers,'GammaFun') && ~params.recompute
         G = this.myPers.GammaFun;
     else
-        G = matlabFunction(simplify(this.getChristoffelSymbols('g',params.g)),...
+        G = matlabFunction(simplify(this.getChristoffelSymbols('g',params.g,...
+          'recompute',params.recompute)),...
         'vars',this.s);  
         this.myPers.GammaFun = G;
     end    
